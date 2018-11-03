@@ -2,7 +2,14 @@
   "name": "rehype-decorate",
   "version": "0.1.0",
   "devDependencies": {
-    "hastscript": "^4.1.0"
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "hastscript": "^4.1.0",
+    "jest": "^23.6.0",
+    "react": "^16.6.0",
+    "rehype-react": "^3.0.3"
   },
   "license": "MIT",
   "main": "index.js",
