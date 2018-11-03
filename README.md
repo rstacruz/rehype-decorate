@@ -5,7 +5,7 @@
 <h1 align='center'>rehype-decorate</h1>
 
 <p align='center'>
-<em>Add CSS classes to Markdown using Rehype</em>
+Add CSS classes to Markdown using Rehype
 </p>
 
 <p align='center'>
@@ -13,6 +13,8 @@
 </p>
 
 <br>
+
+## Write prettier Markdown
 
 `rehype-decorate` lets you add CSS classnames to Markdown.
 
@@ -48,7 +50,7 @@ yarn add rstacruz/rehype-decorate
 ```js
 import decorate from 'rehype-decorate'
 
-let htmlAst /*...*/ = (htmlAst = decorate(htmlAst))
+htmlAst = decorate(htmlAst)
 ```
 
 ## Unified example
