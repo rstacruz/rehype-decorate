@@ -2,7 +2,7 @@
 
 import decorate from '../index'
 import h from 'hastscript'
-import render from '../lib/helpers/hast_to_react'
+import render from 'hast-util-to-html'
 
 describe('single element', () => {
   it('works', () => {
