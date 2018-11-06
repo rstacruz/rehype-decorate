@@ -33,10 +33,8 @@ Cool, isn't it?
 
 ## Install
 
-:warning: Work-in-progress - this is still not published to npm.
-
 ```sh
-yarn add rstacruz/rehype-decorate
+yarn add rehype-decorate@next
 ```
 
 ## Usage
