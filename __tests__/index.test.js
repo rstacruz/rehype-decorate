@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import decorate from '../index'
+import decorate from '../src/index'
 import h from 'hastscript'
 import render from 'hast-util-to-html'
 

@@ -3,6 +3,7 @@
   "version": "1.0.0-rc.1",
   "description": "Add CSS classes to Markdown using Rehype",
   "devDependencies": {
+    "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -15,11 +16,17 @@
     "rehype-stringify": "^4.0.0"
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint '*.js'",
     "prettier:fix": "prettier --write '*.js'",
-    "prettier:check": "prettier --list-different '*.js'"
-  }
+    "prettier:check": "prettier --list-different '*.js'",
+    "build": "babel src -d lib",
+    "watch": "babel src -d lib --watch --verboseo"
+  },
+  "files": [
+    "lib",
+    "src"
+  ]
 }

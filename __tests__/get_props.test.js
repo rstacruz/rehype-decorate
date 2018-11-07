@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import get from '../get_props'
+import get from '../src/get_props'
 
 it('1 class', () => {
   const output = get('.hello')
