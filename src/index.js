@@ -1,4 +1,12 @@
+/*
+ * rehype-decorate
+ * ===============
+ *
+ * @flow
+ */
+
 import getProps from './get_props'
+import { type HastNode, type Options, type HastProps } from './types'
 
 export const COMMENT = /^\s*{\s*(.*?)\s*}\s*$/
 
@@ -6,10 +14,7 @@ export const COMMENT = /^\s*{\s*(.*?)\s*}\s*$/
  * Decorates.
  */
 
-export default function decorate(
-  root /*: HastNode */,
-  options /*: Options */ = {}
-) {
+export default function decorate(root: HastNode, options: Options = {}) {
   // Nothing to do for leaf nodes
   if (!root.children) return root
 
@@ -22,18 +27,15 @@ export default function decorate(
  * Decorates a list of nodes.
  */
 
-export function decorateFragment(
-  list /*: HastNodeList */,
-  options /*: Options */ = {}
-) {
-  return list.map(c => decorate(c, options)).reduce(reduceNodes, [])
+export function decorateFragment(list: HastNode[], options: Options = {}) {
+  return list.map((c: HastNode) => decorate(c, options)).reduce(reduceNodes, [])
 }
 
 /**
  * Reduces a list of nodes. (lol)
  */
 
-export function reduceNodes(list /*: HastNodeList */, node /*: HastNode */) {
+export function reduceNodes(list: HastNode[], node: HastNode) {
   const commentProps = parseComment(node)
 
   // Pass-thru for non-comments
@@ -55,7 +57,7 @@ export function reduceNodes(list /*: HastNodeList */, node /*: HastNode */) {
  *     // => { className: ['hello', 'world']
  */
 
-export function parseComment(node /*: HastNode */) /*: HastProps? */ {
+export function parseComment(node: HastNode): ?HastProps {
   if (node.type !== 'comment') return
 
   const m = node.value.match(COMMENT)
@@ -68,14 +70,14 @@ export function parseComment(node /*: HastNode */) /*: HastProps? */ {
  * Applies properties into a HAST node.
  */
 
-function applyProps(node /*: HastNode */, props /*: HastProps */) {
+function applyProps(node: HastNode, props: HastProps): HastNode {
   // Reject text nodes
   if (node.type !== 'element') return node
 
   const prevProps = node.properties || {}
   const className = [...(prevProps.className || []), ...(props.className || [])]
 
-  const result /*: HastNode */ = {
+  const result: HastNode = {
     ...node,
     properties: {
       ...prevProps,
@@ -99,7 +101,7 @@ function applyProps(node /*: HastNode */, props /*: HastProps */) {
  *     => undefined
  */
 
-function last(list /* Array<*> */) /*: * */ {
+function last<T>(list: T[]): T {
   if (!list.length) return
   return list[list.length - 1]
 }
@@ -116,7 +118,7 @@ function last(list /* Array<*> */) /*: * */ {
  *     => ['a', 'b', 'c']
  */
 
-function trimEnd(list /*: Array<*> */, n /*: number */ = 1) {
-  const result /*: Array<*> */ = list.slice(0, list.length - n)
+function trimEnd<T>(list: T[], n: number = 1): T {
+  const result: T[] = list.slice(0, list.length - n)
   return result
 }

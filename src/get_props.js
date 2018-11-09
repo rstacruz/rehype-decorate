@@ -9,7 +9,7 @@
  *     // => { className: ['hello'] }
  */
 
-export default function getProps(input /*: string */) {
+export default function getProps(input: string) {
   return reduce(input, {}, (state, input) => {
     let m
     ;[m, input] = match(input, /^\s*\.([a-zA-Z0-9\-_]+)/)
@@ -44,7 +44,7 @@ export default function getProps(input /*: string */) {
  *      => [ null, 'abc123456' ]
  */
 
-function match(str, re) {
+function match(str: string, re: RegExp) {
   const m = str.match(re)
 
   if (m) {
