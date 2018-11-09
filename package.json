@@ -22,6 +22,7 @@
     "lint": "eslint '*.js'",
     "prettier:fix": "prettier --write '*.js'",
     "prettier:check": "prettier --list-different '*.js'",
+    "prepare": "npm run build",
     "build": "babel src -d lib",
     "watch": "babel src -d lib --watch --verboseo"
   },
