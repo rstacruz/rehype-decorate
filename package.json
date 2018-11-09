@@ -29,10 +29,10 @@
   "scripts": {
     "build": "babel src -d lib",
     "flow": "flow",
-    "lint": "eslint '*.js'",
+    "lint": "eslint 'src/*.js'",
     "prepare": "run-s build",
-    "prettier:check": "prettier --list-different '*.js'",
-    "prettier:fix": "prettier --write '*.js'",
+    "prettier:check": "prettier --list-different 'src/*.js'",
+    "prettier:fix": "prettier --write 'src/*.js'",
     "test": "jest",
     "watch": "babel src -d lib --watch --verboseo"
   }
