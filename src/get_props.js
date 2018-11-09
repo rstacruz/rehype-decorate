@@ -1,3 +1,8 @@
+// @flow
+
+import { type HastProps } from './types'
+export type State = HastProps
+
 /**
  * Gets props from a directive.
  *
@@ -10,7 +15,7 @@
  */
 
 export default function getProps(input: string) {
-  return reduce(input, {}, (state, input) => {
+  return reduce(input, {}, (state: State, input: string) => {
     let m
     ;[m, input] = match(input, /^\s*\.([a-zA-Z0-9\-_]+)/)
     if (m) return [addClassName(state, m[1]), input]
@@ -28,7 +33,7 @@ export default function getProps(input: string) {
     if (m) return [state, input]
 
     // Terminate the loop
-    return [state, null]
+    return [state, '']
   })
 }
 
@@ -60,8 +65,12 @@ function match(str: string, re: RegExp) {
  * @private
  */
 
-function reduce(input, state, fn) {
-  if (!input) return state
+function reduce(
+  input: string,
+  state: State,
+  fn: (State, string) => [State, string]
+): State {
+  if (!input || input.length === 0) return state
   ;[state, input] = fn(state, input)
   return reduce(input, state, fn)
 }
@@ -71,7 +80,7 @@ function reduce(input, state, fn) {
  * @private
  */
 
-function addClassName(state, className) {
+function addClassName(state: State, className: string): State {
   return {
     ...state,
     className: [...(state.className || []), className]

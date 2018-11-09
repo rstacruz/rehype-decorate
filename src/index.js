@@ -45,6 +45,9 @@ export function reduceNodes(list: HastNode[], node: HastNode) {
   const head = trimEnd(list)
   const tail = last(list)
 
+  // This only happens when list.length === 0
+  if (!tail) return []
+
   return [...head, applyProps(tail, commentProps)]
 }
 
@@ -101,7 +104,7 @@ function applyProps(node: HastNode, props: HastProps): HastNode {
  *     => undefined
  */
 
-function last<T>(list: T[]): T {
+function last<T>(list: T[]): ?T {
   if (!list.length) return
   return list[list.length - 1]
 }
@@ -118,7 +121,7 @@ function last<T>(list: T[]): T {
  *     => ['a', 'b', 'c']
  */
 
-function trimEnd<T>(list: T[], n: number = 1): T {
+function trimEnd<T>(list: T[], n: number = 1): T[] {
   const result: T[] = list.slice(0, list.length - n)
   return result
 }

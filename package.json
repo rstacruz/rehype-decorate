@@ -1,7 +1,7 @@
 {
   "name": "rehype-decorate",
-  "version": "1.0.0-rc.2",
   "description": "Add CSS classes to Markdown using Rehype",
+  "version": "1.0.0-rc.2",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.5",
@@ -12,6 +12,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
+    "flow-bin": "^0.86.0",
     "hast-util-to-html": "^5.0.0",
     "hastscript": "^5.0.0",
     "jest": "^23.6.0",
@@ -19,19 +20,20 @@
     "prettier": "^1.15.1",
     "rehype-stringify": "^4.0.0"
   },
-  "license": "MIT",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "jest",
-    "lint": "eslint '*.js'",
-    "prettier:fix": "prettier --write '*.js'",
-    "prettier:check": "prettier --list-different '*.js'",
-    "prepare": "run-s build",
-    "build": "babel src -d lib",
-    "watch": "babel src -d lib --watch --verboseo"
-  },
   "files": [
     "lib",
     "src"
-  ]
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src -d lib",
+    "flow": "flow",
+    "lint": "eslint '*.js'",
+    "prepare": "run-s build",
+    "prettier:check": "prettier --list-different '*.js'",
+    "prettier:fix": "prettier --write '*.js'",
+    "test": "jest",
+    "watch": "babel src -d lib --watch --verboseo"
+  }
 }
