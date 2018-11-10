@@ -1,7 +1,7 @@
 {
   "name": "rehype-decorate",
   "description": "Add CSS classes to Markdown using Rehype",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.5",
