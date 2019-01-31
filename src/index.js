@@ -74,6 +74,8 @@ export function parseComment(node: HastNode): ?HastProps {
  */
 
 function applyProps(node: HastNode, props: HastProps): HastNode {
+  if (!node) return
+
   // Reject text nodes
   if (node.type !== 'element') return node
 
