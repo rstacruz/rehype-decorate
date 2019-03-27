@@ -34,6 +34,6 @@
     "prettier:check": "prettier --list-different 'src/*.js'",
     "prettier:fix": "prettier --write 'src/*.js'",
     "test": "jest",
-    "watch": "babel src -d lib --watch --verboseo"
+    "watch": "babel src -d lib --watch --verbose"
   }
 }
