@@ -25,23 +25,36 @@ export default function decorate(root: HastNode, options: Options = {}) {
 
 /**
  * Decorates a list of nodes.
+ *
+ * @param {HastNode[]} list
+ * @param {Options} options
+ * @returns {HastNode[]} list
  */
 
 export function decorateFragment(list: HastNode[], options: Options = {}) {
-  return list.map((c: HastNode) => decorate(c, options)).reduce(reduceNodes, [])
+  // Depth-first recursion
+  const newList = list.map((c: HastNode) => decorate(c, options))
+
+  return newList.reduce(reduceNodes, [])
 }
 
 /**
  * Reduces a list of nodes. (lol)
+ * This is a reducer.
+ *
+ * @param {HastNode[]} list
+ * @param {HastNode} node
+ * @returns {HastNode[]} list
  */
 
 export function reduceNodes(list: HastNode[], node: HastNode) {
   const commentProps = parseComment(node)
 
-  // Pass-thru for non-comments
+  // Noop for non-comments
   if (!commentProps) return [...list, node]
 
-  // Replace the last
+  // Replace the last.
+  // TODO: Discard any empty text nodes
   const head = trimEnd(list)
   const tail = last(list)
 
@@ -54,10 +67,13 @@ export function reduceNodes(list: HastNode[], node: HastNode) {
 /**
  * Returns information about a comment node.
  *
+ * @param {HastNode} node
+ * @returns {?HastProps}
+ *
  * @example
  *     comment = { type: 'comment', value: '{.hello.world}' }
  *     parseComment(comment)
- *     // => { className: ['hello', 'world']
+ *     // => { className: ['hello', 'world'] }
  */
 
 export function parseComment(node: HastNode): ?HastProps {
@@ -71,6 +87,19 @@ export function parseComment(node: HastNode): ?HastProps {
 
 /**
  * Applies properties into a HAST node.
+ *
+ * @param {HastNode} node
+ * @param {HastProps} props
+ *
+ * @example
+ *     node = { type: 'element' }
+ *     props = { className: ['hello'] }
+ *
+ *     nn = applyProps(node, props)
+ *     // => {
+ *     //   type: 'element',
+ *     //   properties: { className: ['hello'] }
+ *     // }
  */
 
 function applyProps(node: HastNode, props: HastProps): HastNode {
