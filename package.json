@@ -7,18 +7,18 @@
     "@babel/core": "^7.1.5",
     "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@babel/preset-env": "^7.1.5",
-    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
-    "flow-bin": "^0.86.0",
     "hast-util-to-html": "^5.0.0",
     "hastscript": "^5.0.0",
     "jest": "^23.6.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.15.1",
-    "rehype-stringify": "^4.0.0"
+    "rehype-stringify": "^4.0.0",
+    "typescript": "^3.4.2"
   },
   "files": [
     "lib",
@@ -28,12 +28,15 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src -d lib",
-    "flow": "flow",
+    "tsc": "tsc",
     "lint": "eslint 'src/*.js'",
     "prepare": "run-s build",
     "prettier:check": "prettier --list-different 'src/*.js'",
     "prettier:fix": "prettier --write 'src/*.js'",
     "test": "jest",
     "watch": "babel src -d lib --watch --verbose"
+  },
+  "dependencies": {
+    "tsc": "^1.20150623.0"
   }
 }

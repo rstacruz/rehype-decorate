@@ -1,10 +1,16 @@
-// @flow
+/** @typedef {import('./types').HastProps} State */
 
-import { type HastProps } from './types'
-export type State = HastProps
+/**
+ * @callback ReduceCallback
+ * @param {State} state
+ * @param {string} string
+ * @returns {[State, string]}
+ */
 
 /**
  * Gets props from a directive.
+ *
+ * @param {string} input
  *
  * @example
  *     getProps('.hello .hi #world')
@@ -14,8 +20,11 @@ export type State = HastProps
  *     // => { className: ['hello'] }
  */
 
-export default function getProps(input: string) {
-  return reduce(input, {}, (state: State, input: string) => {
+export default function getProps(input) {
+  return reduce(input, {}, (
+    state /** @type State */,
+    input /** @type string */
+  ) => {
     let m
     ;[m, input] = match(input, /^\s*\.([a-zA-Z0-9\-_]+)/)
     if (m) return [addClassName(state, m[1]), input]
@@ -39,6 +48,10 @@ export default function getProps(input: string) {
 
 /**
  * Matches a string to a regexp. Returns a tuple of the result and the rest.
+ *
+ * @param {string} str
+ * @param {RegExp} re
+ *
  * @private
  *
  * @example
@@ -49,7 +62,7 @@ export default function getProps(input: string) {
  *      => [ null, 'abc123456' ]
  */
 
-function match(str: string, re: RegExp) {
+function match(str, re) {
   const m = str.match(re)
 
   if (m) {
@@ -62,14 +75,13 @@ function match(str: string, re: RegExp) {
 
 /**
  * Keep running `fn(state, input) => [state, input]` until input is exhausted.
+ * @param {string} input
+ * @param {State} state
+ * @param {ReduceCallback} fn
  * @private
  */
 
-function reduce(
-  input: string,
-  state: State,
-  fn: (State, string) => [State, string]
-): State {
+function reduce(input, state, fn) {
   if (!input || input.length === 0) return state
   ;[state, input] = fn(state, input)
   return reduce(input, state, fn)
@@ -77,10 +89,14 @@ function reduce(
 
 /**
  * Adds a class name to properties.
+ *
+ * @param {State} state
+ * @param {string} className
+ * @returns {State}
  * @private
  */
 
-function addClassName(state: State, className: string): State {
+function addClassName(state, className) {
   return {
     ...state,
     className: [...(state.className || []), className]

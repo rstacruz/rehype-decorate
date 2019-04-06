@@ -1,12 +1,8 @@
-/*
- * rehype-decorate
- * ===============
- *
- * @flow
- */
+/** @typedef {import('./types').HastNode} HastNode */
+/** @typedef {import('./types').HastProps} HastProps
+/** @typedef {import('./types').Options} Options */
 
 import getProps from './get_props'
-import { type HastNode, type Options, type HastProps } from './types'
 
 export const COMMENT = /^\s*{\s*(.*?)\s*}\s*$/
 
@@ -14,7 +10,7 @@ export const COMMENT = /^\s*{\s*(.*?)\s*}\s*$/
  * Decorates.
  */
 
-export default function decorate(root: HastNode, options: Options = {}) {
+export default function decorate(root, options = {}) {
   // Nothing to do for leaf nodes
   if (!root.children) return root
 
@@ -31,9 +27,9 @@ export default function decorate(root: HastNode, options: Options = {}) {
  * @returns {HastNode[]} list
  */
 
-export function decorateFragment(list: HastNode[], options: Options = {}) {
+export function decorateFragment(list, options = {}) {
   // Depth-first recursion
-  const newList = list.map((c: HastNode) => decorate(c, options))
+  const newList = list.map(c => decorate(c, options))
 
   return newList.reduce(reduceNodes, [])
 }
@@ -47,7 +43,7 @@ export function decorateFragment(list: HastNode[], options: Options = {}) {
  * @returns {HastNode[]} list
  */
 
-export function reduceNodes(list: HastNode[], node: HastNode) {
+export function reduceNodes(list, node) {
   const commentProps = parseComment(node)
 
   // Noop for non-comments
@@ -76,7 +72,7 @@ export function reduceNodes(list: HastNode[], node: HastNode) {
  *     // => { className: ['hello', 'world'] }
  */
 
-export function parseComment(node: HastNode): ?HastProps {
+export function parseComment(node) {
   if (node.type !== 'comment') return
 
   const m = node.value.match(COMMENT)
@@ -102,7 +98,7 @@ export function parseComment(node: HastNode): ?HastProps {
  *     // }
  */
 
-function applyProps(node: HastNode, props: HastProps): HastNode {
+function applyProps(node, props) {
   if (!node) return
 
   // Reject text nodes
@@ -111,7 +107,8 @@ function applyProps(node: HastNode, props: HastProps): HastNode {
   const prevProps = node.properties || {}
   const className = [...(prevProps.className || []), ...(props.className || [])]
 
-  const result: HastNode = {
+  /** @type HastNode */
+  const result = {
     ...node,
     properties: {
       ...prevProps,
@@ -127,6 +124,10 @@ function applyProps(node: HastNode, props: HastProps): HastNode {
  * Returns the last item in a list.
  * @private
  *
+ * @template T
+ * @param {T[]} list
+ * @returns {?T}
+ *
  * @example
  *     last([1, 2, 3, 4, 5])
  *     => 5
@@ -135,7 +136,7 @@ function applyProps(node: HastNode, props: HastProps): HastNode {
  *     => undefined
  */
 
-function last<T>(list: T[]): ?T {
+function last(list) {
   if (!list.length) return
   return list[list.length - 1]
 }
@@ -143,6 +144,11 @@ function last<T>(list: T[]): ?T {
 /**
  * Trims `n` items off the end of an array.
  * @private
+ *
+ * @template T
+ * @param {T[]} list
+ * @param {number} n
+ * @returns {T[]}
  *
  * @example
  *     trimEnd(['a', 'b', 'c', 'd', 'e'], 1)
@@ -152,7 +158,8 @@ function last<T>(list: T[]): ?T {
  *     => ['a', 'b', 'c']
  */
 
-function trimEnd<T>(list: T[], n: number = 1): T[] {
-  const result: T[] = list.slice(0, list.length - n)
+function trimEnd(list, n = 1) {
+  /** @type T[] */
+  const result = list.slice(0, list.length - n)
   return result
 }
