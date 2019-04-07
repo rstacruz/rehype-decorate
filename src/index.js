@@ -3,6 +3,7 @@
 /** @typedef {import('./types').Options} Options */
 
 import getProps from './get_props'
+import getLastElement from './get_last_element'
 
 export const COMMENT = /^\s*{\s*(.*?)\s*}\s*$/
 
@@ -49,15 +50,13 @@ export function pushNode(list, node) {
   // Noop for non-comments
   if (!commentProps) return [...list, node]
 
-  // Replace the last.
-  // TODO: Discard any empty text nodes
-  const head = trimEnd(list)
-  const tail = last(list)
+  // Find the last element
+  const [pre, item, post] = getLastElement(list)
 
   // This only happens when list.length === 0
-  if (!tail) return []
+  if (!item) return []
 
-  return [...head, applyProps(tail, commentProps)]
+  return [...pre, applyProps(item, commentProps), ...post]
 }
 
 /**
@@ -117,49 +116,5 @@ function applyProps(node, props) {
     }
   }
 
-  return result
-}
-
-/**
- * Returns the last item in a list.
- * @private
- *
- * @template T
- * @param {T[]} list
- * @returns {?T}
- *
- * @example
- *     last([1, 2, 3, 4, 5])
- *     => 5
-
- *     last([])
- *     => undefined
- */
-
-function last(list) {
-  if (!list.length) return
-  return list[list.length - 1]
-}
-
-/**
- * Trims `n` items off the end of an array.
- * @private
- *
- * @template T
- * @param {T[]} list
- * @param {number} n
- * @returns {T[]}
- *
- * @example
- *     trimEnd(['a', 'b', 'c', 'd', 'e'], 1)
- *     => ['a', 'b', 'c', 'd']
- *
- *     trimEnd(['a', 'b', 'c', 'd', 'e'], 2)
- *     => ['a', 'b', 'c']
- */
-
-function trimEnd(list, n = 1) {
-  /** @type T[] */
-  const result = list.slice(0, list.length - n)
   return result
 }
