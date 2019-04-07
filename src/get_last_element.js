@@ -1,7 +1,10 @@
 function getLastElement(list) {
-  const lefts = trimEnd(list)
-  const item = last(list)
-  return [lefts, item, []]
+  const lastIdx = [...list].reverse().findIndex(item => item.type === 'element')
+  const idx = list.length - 1 - lastIdx
+  const lefts = list.slice(0, idx)
+  const rights = list.slice(idx + 1)
+  const item = list[idx]
+  return [lefts, item, rights]
 }
 
 /**

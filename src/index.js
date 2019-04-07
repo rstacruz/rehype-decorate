@@ -45,16 +45,18 @@ export function decorateFragment(list, options = {}) {
  */
 
 export function pushNode(list, node) {
+  // Check if it's a <!-- {.useful} --> comment
   const commentProps = parseComment(node)
 
-  // Noop for non-comments
+  // If not, then noop
   if (!commentProps) return [...list, node]
 
-  // Find the last element
+  // Find the last element to apply the comment props to
   const [pre, item, post] = getLastElement(list)
 
+  // When there's nothing to apply to, don't bother.
   // This only happens when list.length === 0
-  if (!item) return []
+  if (!item) return [...pre, ...post]
 
   return [...pre, applyProps(item, commentProps), ...post]
 }

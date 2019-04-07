@@ -155,7 +155,7 @@ describe('multiple elements', () => {
     const output = decorate(input)
 
     const expected = h('div', [
-      h('h1', 'Hello'),
+      h('h1.one', 'Hello'),
       comment('oh hey')
     ])
 
