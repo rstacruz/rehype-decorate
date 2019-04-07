@@ -31,11 +31,11 @@ export function decorateFragment(list, options = {}) {
   // Depth-first recursion
   const newList = list.map(c => decorate(c, options))
 
-  return newList.reduce(reduceNodes, [])
+  return newList.reduce(pushNode, [])
 }
 
 /**
- * Reduces a list of nodes. (lol)
+ * Pushes a `node` into a list
  * This is a reducer.
  *
  * @param {HastNode[]} list
@@ -43,7 +43,7 @@ export function decorateFragment(list, options = {}) {
  * @returns {HastNode[]} list
  */
 
-export function reduceNodes(list, node) {
+export function pushNode(list, node) {
   const commentProps = parseComment(node)
 
   // Noop for non-comments

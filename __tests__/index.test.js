@@ -6,20 +6,36 @@ import render from 'hast-util-to-html'
 
 describe('single element', () => {
   it('works', () => {
-    const input = h('div', [h('h1', 'Hello'), comment('{.hello}')])
+    const input = h('div', [
+      h('h1', 'Hello'),
+      comment('{.hello}')
+    ])
 
     const output = decorate(input)
+    const expected = h('div', [h('h1.hello', 'Hello')])
 
+    expect(render(output)).toEqual(render(expected))
+  })
+
+  it('works with trailing spaces outside', () => {
+    const input = h('div', [
+      h('h1', 'Hello'),
+      comment(' {.hello} ')
+    ])
+
+    const output = decorate(input)
     const expected = h('div', [h('h1.hello', 'Hello')])
 
     expect(render(output)).toEqual(render(expected))
   })
 
   it('2 classes', () => {
-    const input = h('div', [h('h1', 'Hello'), comment('{.hi.world}')])
+    const input = h('div', [
+      h('h1', 'Hello'),
+      comment('{.hi.world}')
+    ])
 
     const output = decorate(input)
-
     const expected = h('div', [h('h1.hi.world', 'Hello')])
 
     expect(render(output)).toEqual(render(expected))
@@ -33,18 +49,21 @@ describe('single element', () => {
     ])
 
     const output = decorate(input)
-
     const expected = h('div', [h('h1.hi.world', 'Hello')])
 
     expect(render(output)).toEqual(render(expected))
   })
 
   it('attrs', () => {
-    const input = h('div', [h('h1', 'Hello'), comment('{required}')])
+    const input = h('div', [
+      h('h1', 'Hello'),
+      comment('{required}')
+    ])
 
     const output = decorate(input)
-
-    const expected = h('div', [h('h1', { required: true }, 'Hello')])
+    const expected = h('div', [
+      h('h1', { required: true }, 'Hello')
+    ])
 
     expect(render(output)).toEqual(render(expected))
   })
@@ -60,8 +79,10 @@ describe('multiple elements', () => {
     ])
 
     const output = decorate(input)
-
-    const expected = h('div', [h('h1.one', 'Hello'), h('h2.two', 'Hi')])
+    const expected = h('div', [
+      h('h1.one', 'Hello'),
+      h('h2.two', 'Hi')
+    ])
 
     expect(render(output)).toEqual(render(expected))
   })
@@ -116,7 +137,10 @@ describe('multiple elements', () => {
 
     const output = decorate(input)
 
-    const expected = h('div', [h('h1.one', 'Hello'), comment('oh hey')])
+    const expected = h('div', [
+      h('h1.one', 'Hello'),
+      comment('oh hey')
+    ])
 
     expect(render(output)).toEqual(render(expected))
   })
@@ -130,7 +154,30 @@ describe('multiple elements', () => {
 
     const output = decorate(input)
 
-    const expected = h('div', [h('h1', 'Hello'), comment('oh hey')])
+    const expected = h('div', [
+      h('h1', 'Hello'),
+      comment('oh hey')
+    ])
+
+    expect(render(output)).toEqual(render(expected))
+  })
+
+  it('works', () => {
+    const input = h('div', [
+      h('h1', 'Hello'),
+      text('  '),
+      comment('{.hello}'),
+      text('  '),
+      h('p', 'Okay')
+    ])
+
+    const output = decorate(input)
+    const expected = h('div', [
+      h('h1.hello', 'Hello'),
+      text('  '),
+      text('  '),
+      h('p', 'Okay')
+    ])
 
     expect(render(output)).toEqual(render(expected))
   })
@@ -142,4 +189,8 @@ describe('multiple elements', () => {
 
 function comment(value) {
   return { type: 'comment', value }
+}
+
+function text(value) {
+  return { type: 'text', value }
 }
